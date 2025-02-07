@@ -40,27 +40,27 @@ export default function WaitingPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-black/20 backdrop-blur-lg rounded-2xl p-8 shadow-xl text-center"
         >
-          <h1 className="text-3xl font-bold text-white mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
             Counting Down to Valentine's Day 💖
           </h1>
           
           {timeRemaining.days >= 0 ? (
-            <div className="grid grid-cols-4 gap-4 mb-8">
-              <div className="bg-white/10 p-4 rounded-lg">
-                <div className="text-4xl font-bold text-white">{timeRemaining.days}</div>
-                <div className="text-white/80">Days</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8 px-4">
+              <div className="bg-white/10 p-3 md:p-4 rounded-lg">
+                <div className="text-3xl md:text-4xl font-bold text-white">{timeRemaining.days}</div>
+                <div className="text-white/80 text-sm md:text-base">Days</div>
               </div>
-              <div className="bg-white/10 p-4 rounded-lg">
-                <div className="text-4xl font-bold text-white">{timeRemaining.hours}</div>
-                <div className="text-white/80">Hours</div>
+              <div className="bg-white/10 p-3 md:p-4 rounded-lg">
+                <div className="text-3xl md:text-4xl font-bold text-white">{timeRemaining.hours}</div>
+                <div className="text-white/80 text-sm md:text-base">Hours</div>
               </div>
-              <div className="bg-white/10 p-4 rounded-lg">
-                <div className="text-4xl font-bold text-white">{timeRemaining.minutes}</div>
-                <div className="text-white/80">Minutes</div>
+              <div className="bg-white/10 p-3 md:p-4 rounded-lg">
+                <div className="text-3xl md:text-4xl font-bold text-white">{timeRemaining.minutes}</div>
+                <div className="text-white/80 text-sm md:text-base">Minutes</div>
               </div>
-              <div className="bg-white/10 p-4 rounded-lg">
-                <div className="text-4xl font-bold text-white">{timeRemaining.seconds}</div>
-                <div className="text-white/80">Seconds</div>
+              <div className="bg-white/10 p-3 md:p-4 rounded-lg">
+                <div className="text-3xl md:text-4xl font-bold text-white">{timeRemaining.seconds}</div>
+                <div className="text-white/80 text-sm md:text-base">Seconds</div>
               </div>
             </div>
           ) : (
@@ -73,7 +73,7 @@ export default function WaitingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-white/80 text-lg"
+            className="text-white/80 text-base md:text-lg"
           >
             The wait will be worth it! 💌
             <div className="mt-4 animate-pulse">

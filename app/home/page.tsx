@@ -43,7 +43,7 @@ export default function HomePage() {
           className="bg-black/20 backdrop-blur-lg rounded-2xl p-8 shadow-xl"
         >
           <h1 className="text-3xl font-bold text-white mb-6 text-center">
-            Who are your 3 crushes? 😍
+            Who are your crushes? 😍
           </h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
