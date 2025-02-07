@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
 
 export default function HomePage() {
-  const [crushes, setCrushes] = useState(['', '', '']);
+  const [crushes, setCrushes] = useState(['']);
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [activeSearch, setActiveSearch] = useState<number | null>(null);
 
@@ -47,7 +47,7 @@ export default function HomePage() {
           </h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
-            {[0, 1, 2].map((index) => (
+            {crushes.map((_, index) => (
               <div key={index} className="relative">
                 <Input
                   placeholder={`Crush #${index + 1}`}
@@ -74,6 +74,16 @@ export default function HomePage() {
                 )}
               </div>
             ))}
+
+            {crushes.length < 3 && (
+              <Button
+                type="button"
+                onClick={() => setCrushes([...crushes, ''])}
+                className="w-full bg-white/20 text-white hover:bg-white/30 text-lg py-6 rounded-xl"
+              >
+                Add +
+              </Button>
+            )}
 
             <motion.div
               initial={{ opacity: 0 }}
