@@ -121,7 +121,7 @@ export default function Home() {
                       <div className="relative">
                         <Input
                           placeholder="Instagram Username (Optional)"
-                          className="bg-white/10 border-white/20 text-white placeholder:text-white/60 pl-10"
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/60 "
                           value={formData.instagram}
                           onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
                         />
@@ -130,7 +130,7 @@ export default function Home() {
                       <div className="relative">
                         <Input
                           placeholder="X/Twitter Username (Optional)"
-                          className="bg-white/10 border-white/20 text-white placeholder:text-white/60 pl-10"
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/60 "
                           value={formData.twitter}
                           onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                         />
@@ -169,18 +169,6 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
 
-          <p className="text-white/80 text-center mt-6">
-            {activeView === 'signin' 
-              ? "Don't have an account? " 
-              : "Already have an account? "}
-            <button
-              type="button"
-              onClick={() => setActiveView(activeView === 'signin' ? 'signup' : 'signin')}
-              className="text-white hover:text-pink-200 transition-colors"
-            >
-              {activeView === 'signin' ? 'Sign Up' : 'Sign In'}
-            </button>
-          </p>
         </div>
       </div>
     </main>
