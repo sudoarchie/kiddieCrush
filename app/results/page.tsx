@@ -18,32 +18,32 @@ const userData = {
 export default function ResultsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-pink-500 via-red-500 to-purple-600 flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl px-4 mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black/20 backdrop-blur-lg rounded-2xl p-8 shadow-xl text-center"
+          className="bg-black/20 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-xl text-center"
         >
-          <h1 className="text-3xl font-bold text-white mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">
             Your Perfect Match! 💞
           </h1>
 
           {/* Paired Avatars Section */}
-          <div className="flex justify-center items-center gap-8 mb-12">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-8 md:mb-12">
             {/* User Avatar */}
             <motion.div
               initial={{ scale: 0, x: -100 }}
               animate={{ scale: 1, x: 0 }}
-              className="relative"
+              className="relative mb-4 md:mb-0"
             >
               <Image
                 src={userData.avatar}
                 alt="Your avatar"
-                width={150}
-                height={150}
-                className="rounded-full border-4 border-blue-300"
+                width={100}
+                height={100}
+                className="rounded-full border-4 border-blue-300 w-24 h-24 md:w-32 md:h-32"
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full">
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-2 py-1 text-sm md:px-4 md:py-1 md:text-base rounded-full">
                 You
               </div>
             </motion.div>
@@ -52,10 +52,10 @@ export default function ResultsPage() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="text-6xl mx-4"
+              className="text-4xl md:text-6xl mx-2 md:mx-4"
             >
               ❤️
-              <div className="text-2xl font-bold text-white mt-2">
+              <div className="text-xl md:text-2xl font-bold text-white mt-1 md:mt-2">
                 {userData.topCrush.matchPercentage}% Match!
               </div>
             </motion.div>
@@ -64,16 +64,16 @@ export default function ResultsPage() {
             <motion.div
               initial={{ scale: 0, x: 100 }}
               animate={{ scale: 1, x: 0 }}
-              className="relative"
+              className="relative mt-4 md:mt-0"
             >
               <Image
                 src={userData.topCrush.avatar}
                 alt={userData.topCrush.name}
-                width={150}
-                height={150}
-                className="rounded-full border-4 border-pink-300"
+                width={100}
+                height={100}
+                className="rounded-full border-4 border-pink-300 w-24 h-24 md:w-32 md:h-32"
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-pink-500 text-white px-4 py-1 rounded-full">
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-pink-500 text-white px-2 py-1 text-sm md:px-4 md:py-1 md:text-base rounded-full">
                 {userData.topCrush.name}
               </div>
             </motion.div>
@@ -83,12 +83,12 @@ export default function ResultsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white/10 p-6 rounded-xl mb-8 text-left space-y-4"
+            className="bg-white/10 p-4 md:p-6 rounded-xl mb-6 md:mb-8 text-left space-y-4"
           >
             <div className="text-white">
-              <h3 className="text-xl font-semibold mb-4">Compatibility Breakdown</h3>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
+              <h3 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Compatibility Breakdown</h3>
+              <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between text-sm md:text-base">
                   <span>Interest Match</span>
                   <span className="font-bold">95%</span>
                 </div>
@@ -100,8 +100,8 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between text-sm md:text-base">
                   <span>Personality Match</span>
                   <span className="font-bold">89%</span>
                 </div>
@@ -113,8 +113,8 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
+              <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between text-sm md:text-base">
                   <span>Chemistry Score</span>
                   <span className="font-bold">98%</span>
                 </div>
@@ -132,12 +132,12 @@ export default function ResultsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-8 flex justify-center gap-4"
+            className="mt-6 md:mt-8 flex flex-col md:flex-row justify-center gap-3 md:gap-4"
           >
-            <Button className="bg-pink-500 hover:bg-pink-600 text-white text-lg px-8 py-4 rounded-xl">
+            <Button className="bg-pink-500 hover:bg-pink-600 text-white text-base md:text-lg px-6 py-3 md:px-8 md:py-4 rounded-xl w-full md:w-auto">
               Send Message 💌
             </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white text-lg px-8 py-4 rounded-xl">
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white text-base md:text-lg px-6 py-3 md:px-8 md:py-4 rounded-xl w-full md:w-auto">
               Share Match 🎉
             </Button>
           </motion.div>
