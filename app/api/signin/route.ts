@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import z from 'zod'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 const signinSchema = z.object({
     username: z.string(),
     password: z.string().min(8)
 })
+
+if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not defined');
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -39,13 +44,30 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        return NextResponse.json({
+        const token = jwt.sign(
+            { userId: user.id, email: user.email, username: user.username },
+            process.env.JWT_SECRET!,
+            { expiresIn: '7d' }
+        );
+
+        const response = NextResponse.json({
             user: {
                 id: user.id,
                 name: user.name,
                 email: user.email
             }
-        })
+        });
+
+        response.cookies.set({
+            name: 'token',
+            value: token,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24 * 7 // 7 days
+        });
+
+        return response;
 
     } catch (error) {
         return NextResponse.json(
