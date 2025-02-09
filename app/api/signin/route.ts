@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 const signinSchema = z.object({
-    emailOrUsername: z.string(),
+    username: z.string(),
     password: z.string().min(8)
 })
 
@@ -21,13 +21,13 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        const { emailOrUsername, password } = validation.data
+        const { username, password } = validation.data
         
         const user = await prisma.user.findFirst({
             where: {
                 OR: [
-                    { email: emailOrUsername },
-                    { username: emailOrUsername }
+                    { email: username },
+                    { username: username }
                 ]
             }
         })
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     } catch (error) {
         return NextResponse.json(
-            { error: 'Internal server error' },
+            { error: 'Failed to authenticate. Please try again.' },
             { status: 500 }
         )
     } finally {

@@ -1,91 +1,72 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import z from 'zod'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
-interface User{
-    name: string
-    username:string
-    email: string
-    instagram?: string
-    tweeter?: string
-    password:string
-}
-
-const user = z.object({
-    name: z.string().nonempty(),
-    username: z.string().nonempty(),
-    email: z.string().email().nonempty(),
+const prisma = new PrismaClient()
+const userSchema = z.object({
+    name: z.string().min(1),
+    username: z.string().min(1),
+    email: z.string().email(),
+    password: z.string().min(8),
     instagram: z.string().optional(),
-    tweeter: z.string().optional(),
-    password: z.string().min(8, {message: 'Min length should be 8'})
+    tweeter: z.string().optional()
 })
 
-const prisma = new PrismaClient()
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
-        const data = await req.json();
-        const validation = user.safeParse(data);
+        const body = await req.json()
+        const validation = userSchema.safeParse(body)
         
         if (!validation.success) {
             return NextResponse.json(
-                { errors: validation.error.flatten() },
+                { error: validation.error.flatten().fieldErrors },
                 { status: 400 }
-            );
+            )
         }
 
-        const { name, username, email, password, instagram, tweeter } = validation.data;
-
+        const { name, username, email, password, instagram, tweeter } = validation.data
+        
         // Check for existing user
         const existingUser = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { username },
-                    { email },
-                    ...(instagram ? [{ instagram }] : []),
-                    ...(tweeter ? [{ tweeter }] : [])
-                ]
-            }
-        });
+            where: { OR: [{ email }, { username }] }
+        })
 
         if (existingUser) {
             return NextResponse.json(
-                { error: 'User with these details already exists' },
+                { error: 'User already exists with this email or username' },
                 { status: 409 }
-            );
+            )
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        // Create user
+        const hashedPassword = await bcrypt.hash(password, 10)
+        
         const newUser = await prisma.user.create({
             data: {
                 name,
                 username,
                 email,
                 password: hashedPassword,
-                ...(instagram && { instagram }),
-                ...(tweeter && { tweeter })
+                instagram,
+                tweeter
             }
-        });
+        })
 
-        return NextResponse.json({ 
-            success: true,
+        return NextResponse.json({
             user: {
                 id: newUser.id,
                 name: newUser.name,
-                email: newUser.email
+                email: newUser.email,
+                username: newUser.username
             }
-        });
+        })
+
     } catch (error) {
-        console.error('Signup error:', error);
         return NextResponse.json(
-            { error: 'Internal server error' },
+            { error: 'Failed to create account. Please try again.' },
             { status: 500 }
-        );
+        )
     } finally {
-        await prisma.$disconnect();
+        await prisma.$disconnect()
     }
 }
