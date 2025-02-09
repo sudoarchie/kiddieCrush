@@ -1,0 +1,9 @@
+model crush {
+    id            Int  @id @default(autoincrement())
+    userId        Int
+    crushedUserId Int
+    user          User @relation(fields: [userId], references: [id], name: "crushRelations")
+    crushedUser   User @relation(fields: [crushedUserId], references: [id], name: "crushedByRelations")
+
+    @@unique([userId, crushedUserId])
+}
