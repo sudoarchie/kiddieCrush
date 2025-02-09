@@ -1,20 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { getCurrentUser } from '@/lib/getCurrentUser'
 
 const prisma = new PrismaClient()
 
 export async function GET(req: NextRequest) {
   try {
-    // In real implementation, get user ID from session
-    const userId = 1 // Temporary hardcoded user ID
+    const currentUser = getCurrentUser()
+    if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    // Get user's crushes
+    const userId = currentUser.userId
+
     const userCrushes = await prisma.crush.findMany({
       where: { userId },
       select: { crushedUserId: true }
     })
 
-    // Check mutual matches
     const matches = await Promise.all(
       userCrushes.map(async ({ crushedUserId }) => {
         const mutualCrush = await prisma.crush.findFirst({
@@ -33,18 +34,13 @@ export async function GET(req: NextRequest) {
             }
           }
         })
-
-        return mutualCrush ? {
-          ...mutualCrush.crushedUser,
-          matchPercentage: calculateMatchPercentage(),
-          commonInterests: getCommonInterests()
-        } : null
+        return mutualCrush?.crushedUser || null
       })
     )
 
-    const validMatches = matches.filter(match => match !== null)
-
-    return NextResponse.json({ matches: validMatches })
+    return NextResponse.json({ 
+      matches: matches.filter(Boolean) 
+    })
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch matches' },
